@@ -4,7 +4,7 @@ import Article from "../../components/Article";
 import Layout from "../../components/Layout";
 import fs from "fs";
 
-type Props = { md: string; type: "ok" } | { type: "err" };
+type Props = { md: string; type: "ok"; title: string } | { type: "err" };
 
 const ArticleComponent = (props: Props) => {
   if (props.type === "err") {
@@ -15,7 +15,7 @@ const ArticleComponent = (props: Props) => {
     );
   } else {
     return (
-      <Layout>
+      <Layout title={props.title}>
         <Article md={props.md} />
       </Layout>
     );
@@ -35,12 +35,17 @@ export const getStaticPaths: GetStaticPaths<Param> = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props, Param> = async ({
+  params,
+}) => {
   if (params === undefined) {
     return { props: { type: "err" } };
   } else {
     const filename = params.id + ".md";
     const data = await fs.promises.readFile(`articles/${filename}`, "utf-8");
-    return { props: { type: "ok", md: data } };
+    const title = articles.find(
+      (article) => article.filename === params.id
+    ).title;
+    return { props: { type: "ok", md: data, title: title } };
   }
 };
