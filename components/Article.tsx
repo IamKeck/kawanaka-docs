@@ -3,12 +3,14 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ReactMarkDown from "react-markdown";
 import React, { useEffect, useState } from "react";
+import rehypeRaw from "rehype-raw";
 
 const article = (props: { md: string }) => {
   return (
     <>
       <ReactMarkDown
         remarkPlugins={[gfm]}
+        rehypePlugins={[rehypeRaw]}
         components={{
           code: ({ node, inline, className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || "");

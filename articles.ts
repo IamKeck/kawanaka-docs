@@ -16,6 +16,10 @@ const articles: Article[] = [
     filename: "how_to_use_reducer",
     title: "useReducerの簡単な使い方",
   },
+  {
+    filename: "js_immutable",
+    title: "JavaScriptにおけるImmutableについて",
+  },
 ];
 
 export default articles;
